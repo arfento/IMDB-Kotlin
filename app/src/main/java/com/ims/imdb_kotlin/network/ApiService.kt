@@ -36,7 +36,7 @@ interface ApiService {
                         val originalRequest = chain.request()
                         val originalUrl = originalRequest.url
                         val newRequest = originalRequest.newBuilder().apply {
-                            url(s
+                            url(
                                 originalUrl.newBuilder().addQueryParameter(
                                     "api_key", "0360553e8b280942cadda1ad5ef33f42"
                                 )
