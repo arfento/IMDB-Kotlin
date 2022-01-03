@@ -10,6 +10,6 @@ import com.ims.imdb_kotlin.models.Result
 @TypeConverters(
     IdsToStringConverter::class
 )
-abstract class DatabaseService : RoomDatabase(){
+abstract class DatabaseService : RoomDatabase() {
     abstract fun resultDao(): ResultDao
 }

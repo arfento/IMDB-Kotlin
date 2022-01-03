@@ -27,10 +27,10 @@ class HomePageAdapters(
                 HomePageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             HomePageViewHolder(binding)
         } else {
-            Log.i("bookmark viewholder", "onCreateViewHolder: ")
+            Log.i("bookmark viewholder", "bookmark")
             val binding: BookMarkedItemBinding =
                 BookMarkedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return BookMarkViewHolder(binding)
+            BookMarkViewHolder(binding)
         }
     }
 
@@ -41,9 +41,9 @@ class HomePageAdapters(
                 val result = results[position]
                 holder.bindData(result!!)
             } else if (holder is BookMarkViewHolder) {
-                Log.i("bookmark binding", "onBindViewHolder: called")
+                Log.i("bookmark binding", "called")
                 val result = results[position]
-                holder.binData(result!!)
+                holder.bindData(result!!)
             }
         }
     }
@@ -57,12 +57,10 @@ class HomePageAdapters(
         notifyItemChanged(position)
     }
 
-    inner class BookMarkViewHolder(
-        binding: BookMarkedItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    inner class BookMarkViewHolder(binding: BookMarkedItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         var binding: BookMarkedItemBinding = binding
-
-        fun binData(result: Result) {
+        fun bindData(result: Result) {
             result.poster_path?.let { Helper.loadImage(context, it, binding.imdbPoster) }
             if (result.adult) {
                 binding.eighteenPlus.visibility = View.VISIBLE
@@ -99,7 +97,6 @@ class HomePageAdapters(
                 }
             }
         }
-
     }
 
     inner class HomePageViewHolder(
@@ -107,28 +104,26 @@ class HomePageAdapters(
     ) : RecyclerView.ViewHolder(binding.root) {
         var binding: HomePageItemBinding
         fun bindData(result: Result) {
-            result.poster_path?.let {
-                Helper.loadImage(context, it, binding.imdbPoster)
-                if (result.adult) {
-                    binding.eighteenPlus.visibility = View.VISIBLE
-                }
-                binding.title.text = result.title
-                if (result.release_date != null) {
-                    binding.year.text = "${result.release_date}"
-                } else {
-                    binding.year.text = "-"
-                }
-                if (result.bookmarked) {
-                    binding.bookMark.setImageDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.bookmark)
-                    )
-                } else {
-                    binding.bookMark.setImageDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.un_bookmark)
-                    )
-                }
-                binding.rating.text = result.vote_average.toString() + ""
+            result.poster_path?.let { Helper.loadImage(context, it, binding.imdbPoster) }
+            if (result.adult) {
+                binding.eighteenPlus.visibility = View.VISIBLE
             }
+            binding.title.text = result.title
+            if (result.release_date != null) {
+                binding.year.text = "${result.release_date}"
+            } else {
+                binding.year.text = "-"
+            }
+            if (result.bookmarked) {
+                binding.bookMark.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.bookmark)
+                )
+            } else {
+                binding.bookMark.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.un_bookmark)
+                )
+            }
+            binding.rating.text = result.vote_average.toString() + ""
         }
 
         init {
